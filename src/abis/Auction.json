@@ -1,0 +1,104 @@
+{
+  "contractName": "Auction",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/billy/OneDrive/Desktop/dev/ethereum/ethereum_auction/src/contracts/Auction.sol\":\"Auction\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/billy/OneDrive/Desktop/dev/ethereum/ethereum_auction/src/contracts/Auction.sol\":{\"keccak256\":\"0xb54937dd4decc737a437580f8a5fcc7d7f2aa5f93a1e3488b390742df318c0c6\",\"urls\":[\"bzz-raw://9a6944ea5825840c5d2170e80372f3f16a34536f7fce53fd9f87f5a2934675f1\",\"dweb:/ipfs/QmY9LEtqcavRNj2gZAWbynqBbLWZWbTodJmvJJDRYBArgR\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603e80601d6000396000f3fe6080604052600080fdfea265627a7a723158202e78ca0acd6abb7c825df327d6e0ce5de26a4de3ef09d9475cda32ff21cc744864736f6c63430005100032",
+  "deployedBytecode": "0x6080604052600080fdfea265627a7a723158202e78ca0acd6abb7c825df327d6e0ce5de26a4de3ef09d9475cda32ff21cc744864736f6c63430005100032",
+  "sourceMap": "28:23:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;28:23:0;;;;;;;",
+  "deployedSourceMap": "28:23:0:-;;;;;",
+  "source": "pragma solidity ^0.5.16;\r\n\r\ncontract Auction {\r\n\r\n}",
+  "sourcePath": "C:/Users/billy/OneDrive/Desktop/dev/ethereum/ethereum_auction/src/contracts/Auction.sol",
+  "ast": {
+    "absolutePath": "/C/Users/billy/OneDrive/Desktop/dev/ethereum/ethereum_auction/src/contracts/Auction.sol",
+    "exportedSymbols": {
+      "Auction": [
+        2
+      ]
+    },
+    "id": 3,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2,
+        "linearizedBaseContracts": [
+          2
+        ],
+        "name": "Auction",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3,
+        "src": "28:23:0"
+      }
+    ],
+    "src": "0:51:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/C/Users/billy/OneDrive/Desktop/dev/ethereum/ethereum_auction/src/contracts/Auction.sol",
+    "exportedSymbols": {
+      "Auction": [
+        2
+      ]
+    },
+    "id": 3,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2,
+        "linearizedBaseContracts": [
+          2
+        ],
+        "name": "Auction",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3,
+        "src": "28:23:0"
+      }
+    ],
+    "src": "0:51:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.2.3",
+  "updatedAt": "2021-01-05T19:17:43.921Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
