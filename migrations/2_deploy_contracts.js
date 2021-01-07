@@ -1,5 +1,5 @@
-const Auction = artifacts.require("Auction");
+const SubmarineAuctions = artifacts.require("SubmarineAuctions");
 
 module.exports = function(deployer) {
-  deployer.deploy(Auction);
+  deployer.deploy(SubmarineAuctions);
 };
