@@ -4,30 +4,29 @@ contract SubmarineAuctions {
     address public owner;
     string  public name = 'submarine_auctions';
     uint    public lastId = 1;
-    mapping(uint => Auction) public activeAuctions;
+    mapping(uint => Auction) public auctions;
 
-    struct Bid {
-        address bidder;
-        uint    amount;
-    }
 
     struct Auction {
-        uint  id;
-        address seller;
+        uint id;
+        address payable seller;
         uint minBid;
-        uint bidSize;
-        mapping(uint => Bid) bids;
+        address payable [] bidders;
+        mapping(address => uint) bids;
     }
-
-    event BidMade (
-        uint auctionID,
-        address bidder,
-        uint bidAmount
-    );
-
 
     constructor() public {
         owner = msg.sender;
+    }
+
+    function getBidder(uint _auctionID, uint _index) public returns (address){
+        Auction storage a = auctions[_auctionID];
+        return (a.bidders[_index]);
+    }
+
+    function getBid(uint _auctionID, uint _index) public returns (uint){
+        Auction storage a = auctions[_auctionID];
+        return (a.bids[a.bidders[_index]]);
     }
 
     function createAuction(uint _minBid) public payable {
@@ -36,41 +35,48 @@ contract SubmarineAuctions {
 
         lastId ++;
 
-        Auction memory newAuction = Auction({
-            id : lastId,
-            minBid : _minBid,
-            seller : msg.sender,
-            bidSize : 0 
-        });
-
-        activeAuctions[lastId] = newAuction;
+        Auction storage a = auctions[lastId];
+        a.id = lastId;
+        a.seller = msg.sender;
+        a.minBid = _minBid;
     }
 
     function submitBid(uint _auctionID) public payable {
 
-        require(msg.value > 0);
+        Auction storage a = auctions[_auctionID];
 
-        Bid memory bid = Bid({
-            bidder : msg.sender,
-            amount : msg.value
-        });
+        require(msg.value >= a.minBid);
 
-        activeAuctions[_auctionID].bids[ activeAuctions[_auctionID].bidSize ] = bid;
-        activeAuctions[_auctionID].bidSize ++;
+        a.bidders.push(msg.sender);
+        a.bids[msg.sender] = msg.value;
 
-        emit BidMade(_auctionID, msg.sender, msg.value);
     }
 
     function resolveAuction(uint _auctionID) public {
-        // for(uint i=0;i<)
 
-        // Transfer NFT to bidder
+        Auction storage a = auctions[_auctionID];
 
-        // Transfer highest bid to owner
+        uint _maxBid = 0;
+        uint _winnerIndex;
 
-        // Remove auction from active auctions array
+        //Determine winner
+        for(uint i=0; i < a.bidders.length; i++){
+            if(a.bids[a.bidders[i]] > _maxBid){
+                _maxBid = a.bids[a.bidders[i]];
+                _winnerIndex = i;
+            }
+        }
 
-        // Pay back everyone else - How to do this without awful gas fees?? lol
+        //Pay seller
+        a.seller.transfer(_maxBid);
+
+        //Refund losing bidders
+        a.bids[a.bidders[_winnerIndex]] = 0;
+        for(uint i=0; i < a.bidders.length; i++){
+            a.bidders[i].transfer(a.bids[a.bidders[i]]);
+        }
+        
+        //Send winning bidder the NFT
     }
 
 }
