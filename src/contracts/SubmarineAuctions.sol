@@ -11,6 +11,9 @@ contract SubmarineAuctions {
         uint id;
         address payable seller;
         uint minBid;
+        uint maxBid;
+        uint endTime;
+        address winner;
         address payable [] bidders;
         mapping(address => uint) bids;
     }
@@ -29,7 +32,7 @@ contract SubmarineAuctions {
         return (a.bids[a.bidders[_index]]);
     }
 
-    function createAuction(uint _minBid) public payable {
+    function createAuction(uint _minBid, uint _days,  uint _hours, uint _minutes) public payable {
 
         require(_minBid > 0);
 
@@ -37,46 +40,54 @@ contract SubmarineAuctions {
 
         Auction storage a = auctions[lastId];
         a.id = lastId;
+        a.maxBid = 0;
         a.seller = msg.sender;
         a.minBid = _minBid;
+        a.endTime = now + ( _days * 1 days) + ( _hours * 1 hours) + ( _minutes * 1 minutes);
     }
 
     function submitBid(uint _auctionID) public payable {
 
         Auction storage a = auctions[_auctionID];
 
-        require(msg.value >= a.minBid);
+        // Only 1 bid per address allowed
+        require(msg.value >= a.minBid && a.bids[msg.sender] == 0);
 
-        a.bidders.push(msg.sender);
         a.bids[msg.sender] = msg.value;
+
+        if(msg.value > a.maxBid){
+            a.maxBid = msg.value;
+            a.winner = msg.sender;
+        }
 
     }
 
-    function resolveAuction(uint _auctionID) public {
-
+    function sellerWidthdraw(uint _auctionID) public {
         Auction storage a = auctions[_auctionID];
+        require(now >= a.endTime);
+        require(msg.sender == a.seller);
 
-        uint _maxBid = 0;
-        uint _winnerIndex;
-
-        //Determine winner
-        for(uint i=0; i < a.bidders.length; i++){
-            if(a.bids[a.bidders[i]] > _maxBid){
-                _maxBid = a.bids[a.bidders[i]];
-                _winnerIndex = i;
-            }
-        }
-
-        //Pay seller
-        a.seller.transfer(_maxBid);
-
-        //Refund losing bidders
-        a.bids[a.bidders[_winnerIndex]] = 0;
-        for(uint i=0; i < a.bidders.length; i++){
-            a.bidders[i].transfer(a.bids[a.bidders[i]]);
+        if(a.maxBid < a.minBid){
+            // Transfer NFT back to owner
+        } else {
+            msg.sender.transfer(a.maxBid);  
         }
         
-        //Send winning bidder the NFT
+    }
+
+    function bidderWidthdraw(uint _auctionID) public {
+        
+        Auction storage a = auctions[_auctionID];
+        
+        require(now >= a.endTime);
+
+        if(msg.sender == a.winner){
+
+            // Send winner the NFT;
+
+        } else {
+            msg.sender.transfer(a.bids[msg.sender]);
+        }
     }
 
 }
