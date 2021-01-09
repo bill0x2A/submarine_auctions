@@ -1,4 +1,4 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 contract SubmarineAuctions {
     address public owner;
@@ -32,7 +32,7 @@ contract SubmarineAuctions {
         return (a.bids[a.bidders[_index]]);
     }
 
-    function createAuction(uint _minBid, uint _days,  uint _hours, uint _minutes) public payable {
+    function createAuction(uint _minBid, uint _days,  uint _hours, uint _minutes, uint _seconds) public payable {
 
         require(_minBid > 0);
 
@@ -43,7 +43,7 @@ contract SubmarineAuctions {
         a.maxBid = 0;
         a.seller = msg.sender;
         a.minBid = _minBid;
-        a.endTime = now + ( _days * 1 days) + ( _hours * 1 hours) + ( _minutes * 1 minutes);
+        a.endTime = now + ( _days * 1 days) + ( _hours * 1 hours) + ( _minutes * 1 minutes) + _seconds;
     }
 
     function submitBid(uint _auctionID) public payable {
@@ -51,7 +51,7 @@ contract SubmarineAuctions {
         Auction storage a = auctions[_auctionID];
 
         // Only 1 bid per address allowed
-        require(msg.value >= a.minBid && a.bids[msg.sender] == 0);
+        require(msg.value >= a.minBid, 'submitBid require is failing!');
 
         a.bids[msg.sender] = msg.value;
 
@@ -62,7 +62,7 @@ contract SubmarineAuctions {
 
     }
 
-    function sellerWidthdraw(uint _auctionID) public {
+    function sellerWithdraw(uint _auctionID) public {
         Auction storage a = auctions[_auctionID];
         require(now >= a.endTime);
         require(msg.sender == a.seller);
@@ -75,7 +75,7 @@ contract SubmarineAuctions {
         
     }
 
-    function bidderWidthdraw(uint _auctionID) public {
+    function bidderWithdraw(uint _auctionID) public {
         
         Auction storage a = auctions[_auctionID];
         
@@ -83,7 +83,7 @@ contract SubmarineAuctions {
 
         if(msg.sender == a.winner){
 
-            // Send winner the NFT;
+            require(false);
 
         } else {
             msg.sender.transfer(a.bids[msg.sender]);
